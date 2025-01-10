@@ -1,0 +1,34 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "src/llist.o",
+      "src/llist.c"
+    ],
+    "directory": "/home/jieqiboh/Documents/ds",
+    "file": "/home/jieqiboh/Documents/ds/src/llist.c",
+    "output": "/home/jieqiboh/Documents/ds/src/llist.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "main.o",
+      "main.c"
+    ],
+    "directory": "/home/jieqiboh/Documents/ds",
+    "file": "/home/jieqiboh/Documents/ds/main.c",
+    "output": "/home/jieqiboh/Documents/ds/main.o"
+  }
+]
