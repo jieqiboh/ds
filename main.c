@@ -26,6 +26,8 @@ void test_llist_prepend() {
     assert(head->next != NULL);  // There should be a second node
 
     assert(*(int *)head->next->next->data == data3);  // Third node data should be 30
+    
+    llist_free(head);
 }
 
 // Test appending to the list
