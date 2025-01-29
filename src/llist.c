@@ -47,3 +47,30 @@ llist_node *llist_find(llist_node *head, void *data, llist_compare_func cmp) {
     }
     return NULL; // Return NULL if no match is found
 }
+
+// Delete a node from the linked list, found matching data by the list_compare_function
+void llist_delete(llist_node **head, void *data, llist_compare_func cmp) {
+    if (head == NULL || *head == NULL) {
+        return; // Do nothing if the list or node is NULL
+    }
+
+    llist_node *cur = *head;
+    llist_node *prev = NULL;
+
+    while (cur != NULL) {
+        if (cmp(cur->data, data)) {
+            if (prev == NULL) {
+                // Head node case: the node to delete is the head
+                *head = cur->next;
+            } else {
+                // Bypass the current node
+                prev->next = cur->next;
+            }
+            free(cur->data); // free the current node
+            free(cur);
+            return;
+        }
+        prev = cur;
+        cur = cur->next;
+    }
+}

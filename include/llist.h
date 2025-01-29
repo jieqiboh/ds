@@ -22,8 +22,10 @@ void llist_free(llist_node *node);
 typedef bool (*llist_compare_func)(const void *a, const void *b);
 
 // Find a node in the linked list using the compare function
-llist_node *llist_find(llist_node* head, void* data, llist_compare_func);
+llist_node *llist_find(llist_node *head, void *data, llist_compare_func);
 
+// Delete a node in the linked list found using the compare function
+void llist_delete(llist_node **head, void *data, llist_compare_func);
 #endif
 
 

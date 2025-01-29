@@ -13,6 +13,9 @@ OBJS = $(SRCS:.c=.o)
 # Define the output executable
 TARGET = main
 
+# Default target (build everything)
+all: $(TARGET)
+
 # Rule to build the target
 $(TARGET): $(OBJS)
 	$(CC) $(OBJS) -o $(TARGET) $(LDFLAGS)
@@ -25,5 +28,4 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f $(OBJS) $(TARGET)
 
-.PHONY: clean
-
+.PHONY: all clean
