@@ -18,6 +18,12 @@ llist_node *llist_prepend(llist_node *head, void *data, size_t data_size);
 // Free an entire linked list
 void llist_free(llist_node *node);
 
+// Define the function signature for the equality check
+typedef bool (*llist_compare_func)(const void *a, const void *b);
+
+// Find a node in the linked list using the compare function
+llist_node *llist_find(llist_node* head, void* data, llist_compare_func);
+
 #endif
 
 

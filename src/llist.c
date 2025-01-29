@@ -35,3 +35,15 @@ void llist_free(llist_node* head) {
         cur = nxt;
     }
 }
+
+// Find a node matching data using a comparison function
+llist_node *llist_find(llist_node *head, void *data, llist_compare_func cmp) {
+    llist_node *cur = head;
+    while (cur != NULL) {
+        if (cmp(cur->data, data)) { // Use the custom comparison function
+            return cur; // Return the node if the data matches
+        }
+        cur = cur->next; // Move to the next node
+    }
+    return NULL; // Return NULL if no match is found
+}
