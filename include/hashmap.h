@@ -34,4 +34,5 @@ void *hashmap_delete(hashmap *map, pair *p);
 // Tests
 void test_hashmap_new();
 void test_hashmap_set();
+void test_hashmap_get();
 #endif

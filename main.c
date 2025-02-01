@@ -25,6 +25,7 @@ int main() {
 
     test_hashmap_new();
     test_hashmap_set();
+    test_hashmap_get();
     printf("All tests passed!\n");
     return 0;
 }

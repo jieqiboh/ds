@@ -45,6 +45,10 @@ pair *hashmap_get(hashmap *map, pair *p) {
     uint64_t llist_idx = map->hash(p) % map->cap;
     llist_node *head = map->buckets[llist_idx];
 
+    llist_node *found_node = llist_find(head, p, map->cmp);
+    if (found_node == NULL) {
+        return NULL;
+    }
     return (pair *)llist_find(head, p, map->cmp)->data;
 }
 
@@ -98,18 +102,66 @@ void test_hashmap_set() {
     // create a hashmap that maps strings to numbers
     hashmap *map = hashmap_new(64, hash_string, hashmap_compare_pairs);
 
-    pair pair1 = { .key = "helloworld", .value = &(int){53} };
+    pair pair1 = { .key = "helloworld", .value = &(int){123} };
     hashmap_set(map, &pair1);
+
+    pair pair2 = { .key = "pair2", .value = &(int){321} };
+    hashmap_set(map, &pair2);
+
+    pair pair3 = { .key = "pair3", .value = &(int){456} };
+    hashmap_set(map, &pair3);
 
     // find pair1
     pair *found_pair = hashmap_get(map, &pair1);
     assert(strcmp((char *)found_pair->key, "helloworld") == 0);
+    assert(*(int *)found_pair->value == 123);
 
+    // find pair2
+    found_pair = hashmap_get(map, &pair2);
+    assert(strcmp((char *)found_pair->key, "pair2") == 0);
+    assert(*(int *)found_pair->value == 321);
+
+    // find pair3
+    found_pair = hashmap_get(map, &pair3);
+    assert(strcmp((char *)found_pair->key, "pair3") == 0);
+    assert(*(int *)found_pair->value == 456);
     hashmap_free(map);
 }
 
 void test_hashmap_get() {
+    // create a hashmap that maps strings to numbers
+    hashmap *map = hashmap_new(64, hash_string, hashmap_compare_pairs);
 
+    pair pair1 = { .key = "helloworld", .value = &(int){123} };
+    hashmap_set(map, &pair1);
+
+    pair pair2 = { .key = "helloworld", .value = &(int){321} };
+    hashmap_set(map, &pair2);
+
+    pair pair3 = { .key = "pair3", .value = &(int){456} };
+    hashmap_set(map, &pair3);
+
+    pair pair4 = { .key = "pair4", .value = &(int){0} };
+
+    // find pair1
+    pair *found_pair = hashmap_get(map, &pair1);
+    assert(strcmp((char *)found_pair->key, "helloworld") == 0);
+    assert(*(int *)found_pair->value == 321);
+
+    // find pair2 which should have overwritten pair1's key
+    found_pair = hashmap_get(map, &pair2);
+    assert(strcmp((char *)found_pair->key, "helloworld") == 0);
+    assert(*(int *)found_pair->value == 321);
+
+    found_pair = hashmap_get(map, &pair3);
+    assert(strcmp((char *)found_pair->key, "pair3") == 0);
+    assert(*(int *)found_pair->value == 456);
+
+    // find pair4
+    found_pair = hashmap_get(map, &pair4);
+    assert(found_pair == NULL);
+
+    hashmap_free(map);
 }
 
 void test_hashmap_free() {
