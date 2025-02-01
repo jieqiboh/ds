@@ -14,7 +14,6 @@ int main() {
     test_strcmp();
 
     printf("Running linked list tests...\n");
-
     test_llist_prepend();
     test_llist_free();
     test_llist_find();
@@ -23,9 +22,11 @@ int main() {
     test_llist_find_pair();
     test_buckets();
 
+    printf("Running hashmap tests...\n");
     test_hashmap_new();
     test_hashmap_set();
     test_hashmap_get();
+    test_hashmap_delete();
     printf("All tests passed!\n");
     return 0;
 }

@@ -29,10 +29,11 @@ pair *hashmap_get(hashmap *map, pair *p);
 void hashmap_set(hashmap *map, pair *p);
 
 // Deletes the key-value pair from the hashmap if it exists, given the pair
-void *hashmap_delete(hashmap *map, pair *p);
+void hashmap_delete(hashmap *map, pair *p);
 
 // Tests
 void test_hashmap_new();
 void test_hashmap_set();
 void test_hashmap_get();
+void test_hashmap_delete();
 #endif

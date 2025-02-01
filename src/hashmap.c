@@ -62,10 +62,11 @@ void hashmap_set(hashmap *map, pair *p) {
     map->buckets[llist_idx] = llist_prepend(map->buckets[llist_idx], p, sizeof(pair));
 }
 
-// hashmap_delete removes an item from the hash map and returns it. If the
-// item is not found then NULL is returned.
-void *hashmap_delete(hashmap *map, pair *p) {
-    return NULL;
+// hashmap_delete removes an item from the hash map.
+void hashmap_delete(hashmap *map, pair *p) {
+    uint64_t llist_idx = map->hash(p) % map->cap;
+
+    llist_delete(&map->buckets[llist_idx], p, map->cmp);
 }
 
 // Tests
@@ -164,9 +165,53 @@ void test_hashmap_get() {
     hashmap_free(map);
 }
 
-void test_hashmap_free() {
-}
-
 void test_hashmap_delete() {
+    // create a hashmap that maps strings to numbers
+    hashmap *map = hashmap_new(64, hash_string, hashmap_compare_pairs);
 
+    pair pair1 = { .key = "abc", .value = &(int){123} };
+    hashmap_set(map, &pair1);
+
+    pair pair2 = { .key = "bac", .value = &(int){321} };
+    hashmap_set(map, &pair2);
+
+    pair pair3 = { .key = "xyz", .value = &(int){456} };
+    hashmap_set(map, &pair3);
+
+    pair pair4 = { .key = "yxz", .value = &(int){456} };
+    hashmap_set(map, &pair4);
+
+    hashmap_delete(map, &pair1);
+    hashmap_delete(map, &pair4);
+
+    // find pair1
+    pair *found_pair = hashmap_get(map, &pair1);
+    assert(found_pair == NULL);
+
+    // find pair2
+    found_pair = hashmap_get(map, &pair2);
+    assert(strcmp((char *)found_pair->key, "bac") == 0);
+    assert(*(int *)found_pair->value == 321);
+
+    // find pair3
+    found_pair = hashmap_get(map, &pair3);
+    assert(strcmp((char *)found_pair->key, "xyz") == 0);
+    assert(*(int *)found_pair->value == 456);
+
+    // find pair4
+    found_pair = hashmap_get(map, &pair4);
+    assert(found_pair == NULL);
+
+    // delete pair2 and pair3
+    hashmap_delete(map, &pair2);
+    hashmap_delete(map, &pair3);
+
+    // find pair2 and pair3, which should be missing
+    found_pair = hashmap_get(map, &pair2);
+    assert(found_pair == NULL);
+
+    found_pair = hashmap_get(map, &pair3);
+    assert(found_pair == NULL);
+
+    hashmap_free(map);
 }
