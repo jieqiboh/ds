@@ -79,3 +79,10 @@ size_t strlen(const char *s)
 	return len;
 }
 
+int strcmp(const void *a, const void *b) {
+	const char *str1 = *(const char **)a;
+	const char *str2 = *(const char **)b;
+
+	// Use memcmp to compare the two strings, including the null terminator
+	return memcmp(str1, str2, strlen(str1) + 1) == 0;
+}

@@ -2,6 +2,7 @@
 .idea/
 
 # Ignore binaries (executables)
+main
 *.out
 *.exe
 *.bin

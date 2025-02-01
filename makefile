@@ -5,7 +5,9 @@ SRC_DIR = src
 INC_DIR = include
 
 # Define the source files
-SRCS = $(SRC_DIR)/llist.c main.c
+SRCS = $(SRC_DIR)/llist.c \
+		$(SRC_DIR)/hashmap.c \
+		main.c
 
 # Define the object files
 OBJS = $(SRCS:.c=.o)
